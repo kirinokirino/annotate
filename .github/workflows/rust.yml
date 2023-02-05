@@ -18,14 +18,14 @@ jobs:
           override: true
 
       - name: Build
-        run: cargo build --all --release && strip target/release/maze && mv target/release/maze target/release/maze_amd64
+        run: cargo build --all --release && strip target/release/annotate && mv target/release/annotate target/release/annotate_amd64
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/maze_amd64
+            target/release/annotate_amd64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -50,7 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/release/maze.exe
+          files: target/release/annotate.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,7 +70,7 @@ jobs:
           override: true
 
       - name: Build for mac
-        run: cargo build --all --release && strip target/release/maze && mv target/release/maze target/release/maze_darwin
+        run: cargo build --all --release && strip target/release/annotate && mv target/release/annotate target/release/annotate_darwin
 
       - name: Release
         uses: softprops/action-gh-release@v1
