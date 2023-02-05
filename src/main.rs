@@ -1,5 +1,5 @@
 #![warn(clippy::nursery, clippy::pedantic)]
-use speedy2d;
+
 use speedy2d::{
     color::Color,
     dimen::{UVec2, Vec2},
@@ -56,15 +56,15 @@ impl WindowHandler for App {
         if self.lmb {
             let mut next = None;
             for history in &self.mouse_positions {
-                if next.is_some() && history.is_some() {
-                    graphics.draw_line(
-                        history.unwrap()
-                            + Vec2::new(fastrand::f32() * spread, fastrand::f32() * spread),
-                        next.unwrap()
-                            + Vec2::new(fastrand::f32() * spread, fastrand::f32() * spread),
-                        2.0,
-                        Color::BLACK,
-                    );
+                if let Some(next) = next {
+                    if let Some(history) = history {
+                        graphics.draw_line(
+                            history + Vec2::new(fastrand::f32() * spread, fastrand::f32() * spread),
+                            next + Vec2::new(fastrand::f32() * spread, fastrand::f32() * spread),
+                            2.0,
+                            Color::BLACK,
+                        );
+                    }
                 }
                 next = history;
             }
@@ -86,18 +86,14 @@ impl WindowHandler for App {
     }
 
     fn on_mouse_button_down(&mut self, _helper: &mut WindowHelper<()>, button: MouseButton) {
-        match button {
-            MouseButton::Left => self.lmb = true,
-            _ => (),
+        if button == MouseButton::Left {
+            self.lmb = true;
         }
     }
 
     fn on_mouse_button_up(&mut self, _helper: &mut WindowHelper<()>, button: MouseButton) {
-        match button {
-            MouseButton::Left => {
-                self.lmb = false;
-            }
-            _ => (),
+        if button == MouseButton::Left {
+            self.lmb = false;
         }
     }
 
