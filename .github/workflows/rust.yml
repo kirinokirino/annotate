@@ -1,6 +1,6 @@
 name: Rust
 
-on: [push]
+on: [release]
 
 jobs:
   build:
@@ -77,6 +77,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/maze_darwin
+            target/release/annotate_darwin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
